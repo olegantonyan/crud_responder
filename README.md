@@ -148,6 +148,12 @@ end
 ```
 Now your controllers are skinny again! Also, you are forced to think in terms of CRUD interface to models and REST to controllers.
 
+## TODO
+
+* Cutomizing flash messages (+ task to copy skeleton locale)
+* Support for pure API controllers
+* Push to rubygems
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

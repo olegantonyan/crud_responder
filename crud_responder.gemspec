@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["oleg.b.antonyan@gmail.com"]
 
   spec.summary       = %q{DRY out your controler actions for CRUD operations with flash messages}
-  spec.description   = %q{Don't repeat object.save, object.update_attributes, object.destroy and flash[:alert], flash[:notice] in every controller. Use action's name to decide what to do}
+  spec.description   = %q{Don't repeat object.save, object.update, object.destroy and flash[:alert], flash[:notice] in every controller. Use action's name to decide what to do}
   spec.homepage      = "https://github.com/olegantonyan/crud_responder"
   spec.license       = "MIT"
 

@@ -48,10 +48,12 @@ end
 ```
 But the only differences between these actions are:
 * Method called on a model
+* Action on success
+* Action on error
 * Text in flash message on success
 * Text in flash message on error
 
-Let's extract these differences:
+And they are repeated over and over again. Let's extract these differences:
 ```ruby
 def create
   @post = Post.new(post_params)

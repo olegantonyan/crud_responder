@@ -1,5 +1,5 @@
 require 'crud_responder/version'
-require 'actionview/helpers/text_helper'
+require 'action_view/helpers/text_helper'
 
 module CrudResponder
   include ActionView::Helpers::TextHelper

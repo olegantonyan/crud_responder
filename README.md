@@ -39,7 +39,7 @@ def update
   @post = Post.find(params[:id])
 
   if @post.update(post_params)
-    redirect_to @post, notice: 'Post was successfully created.' }
+    redirect_to @post, notice: 'Post was successfully created.' 
   else
     flash[:alert] = "Error creating post: #{@post.errors.full_messages.to_sentence}"
     render :new

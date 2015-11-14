@@ -39,7 +39,7 @@ def update
   @post = Post.find(params[:id])
 
   if @post.update(post_params)
-    redirect_to @post, notice: 'Post was successfully created.' 
+    redirect_to @post, notice: 'Post was successfully created.'
   else
     flash[:alert] = "Error creating post: #{@post.errors.full_messages.to_sentence}"
     render :new
@@ -108,6 +108,15 @@ def create
 end
 ```
 By default you will be redirected to object show, objects index or back in this order. And render :new when creating object and :edit when updating.
+
+You can specify `error_url` instead of `error_action` to be redirected instead of action render in case of error.
+```ruby
+def create
+  @post = Post.new(post_params)
+  crud_respond @post, success_url: root_path, error_url: 'https://google.com'
+  # will redirect to root_path in case of success or to https://google.com otherwise
+end
+```
 
 If  you need to create a bunch of objects (not just one) you can create wrapper class with same interface. For example, uploading multiple files:
 ```ruby

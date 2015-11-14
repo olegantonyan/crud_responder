@@ -10,11 +10,16 @@ module CrudResponder
     method = options.fetch(:method, method_by_caller(caller))
     success_url = options.fetch(:success_url) { default_redirect_url(method, object) }
     error_action = options.fetch(:error_action) { default_render_action(method, object) }
+    error_url = options.fetch(:error_url, nil)
 
     if perform(caller, object, method)
       redirect_to success_url
     else
-      render error_action
+      if error_url
+        redirect_to error_url
+      else
+        render error_action
+      end
     end
   end
 

@@ -1,0 +1,11 @@
+AllCops:
+  RunRailsCops: true
+
+  Exclude:
+    - '*.gemspec'
+
+Metrics/LineLength:
+  Max: 160
+
+Style/Documentation:
+  Enabled: false

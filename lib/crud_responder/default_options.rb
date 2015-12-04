@@ -4,7 +4,9 @@ module CrudResponder
   class DefaultOptions
     include ActionDispatch::Routing::PolymorphicRoutes
 
-    attr_reader :method, :object
+    def self.all_available
+      @_all_available ||= new(nil, nil).public_methods(false).map(&:to_sym)
+    end
 
     def initialize(method, object)
       @method = method
@@ -27,11 +29,13 @@ module CrudResponder
       end
     end
 
-    def _error_url
+    def error_url
       nil
     end
 
     private
+
+    attr_reader :method, :object
 
     def object_index_url
       polymorphic_url(object.class)

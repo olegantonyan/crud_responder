@@ -34,20 +34,22 @@ module CrudResponder
   def final_options(opts, method, object)
     @_options ||= begin
       {}.tap do |result|
-        [:success_url, :error_action, :error_url].each do |opt|
-          result[opt] = opts.fetch(opt) { |key| specific_options(key) || default_options(key, method, object) }
+        DefaultOptions.all_available.each do |opt|
+          result[opt] = opts.fetch(opt) { |key| specific_options_for(key) || default_options_for(key, method, object) }
         end
       end
     end
   end
 
-  def default_options(opt, method, object)
-    @_default_option ||= begin
-      DefaultOptions.new(method, object)
-    end.public_send(opt)
+  def default_options_for(opt, method, object)
+    default_options(method, object).public_send(opt)
   end
 
-  def specific_options(opt)
+  def default_options(method, object)
+    @_default_options ||= DefaultOptions.new(method, object)
+  end
+
+  def specific_options_for(opt)
     return nil unless respond_to?(:crud_responder_default_options, true)
     result = send(:crud_responder_default_options)
     return nil unless result

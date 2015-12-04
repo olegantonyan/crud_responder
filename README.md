@@ -118,6 +118,16 @@ def create
 end
 ```
 
+You can also specify per-controller default options:
+```ruby
+private
+
+def crud_responder_default_options
+  { success_url: root_path }
+  # will redirect to `root_path` for every successful request in this controller
+end
+```
+
 If  you need to create a bunch of objects (not just one) you can create wrapper class with same interface. For example, uploading multiple files:
 ```ruby
 # app/controllers/media_items_controller.rb
@@ -160,7 +170,8 @@ Now your controllers are skinny again! Also, you are forced to think in terms of
 ## TODO
 
 * Cutomizing flash messages (+ task to copy skeleton locale)
-* Support for pure API controllers
+* Support for pure API controllers (which is much simplier)
+* Testing
 * Push to rubygems
 
 ## Development

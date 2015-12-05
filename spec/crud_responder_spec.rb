@@ -5,5 +5,5 @@ describe CrudResponder do
     expect(CrudResponder::VERSION).not_to be nil
   end
 
-  # TODO integration test with dummy app
+  # TODO: integration test with dummy app
 end

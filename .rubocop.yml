@@ -1,6 +1,11 @@
 AllCops:
   RunRailsCops: true
 
+  Exclude:
+    - '*.gemspec'
+    - 'bin/*'
+    - 'Rakefile'
+
 Metrics/LineLength:
   Max: 160
 

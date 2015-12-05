@@ -99,6 +99,22 @@ class ApplicationController
 end
 ```
 
+Copy translations from gem's `config/locales` to your `config/locales`. Or, for example, create file `config/locales/crud_responder.en.yml` in your project with following content:
+```yaml
+en:
+  flash:
+    actions:
+      create:
+        notice: '%{resource_name} %{resource_desc} was successfully created.'
+        alert: '%{resource_name} %{resource_desc} cannot be created. %{errors}'
+      update:
+        notice: '%{resource_name} %{resource_desc} was successfully updated.'
+        alert: '%{resource_name} %{resource_desc} cannot be updated. %{errors}'
+      destroy:
+        notice: '%{resource_name} %{resource_desc} was successfully destroyed.'
+        alert: '%{resource_name} %{resource_desc} cannot be destroyed. %{errors}'
+```
+
 Use `crud_respond` method with object you need to create, update or destroy. Optionally, you can pass options to this method to override default redirect and render actions
 ```ruby
 def create

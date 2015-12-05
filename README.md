@@ -79,7 +79,7 @@ Method to call on the object determined by the name of controller's action.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'crud_responder', github: 'olegantonyan/crud_responder'
+gem 'crud_responder'
 ```
 
 And then execute:
@@ -172,7 +172,6 @@ Now your controllers are skinny again! Also, you are forced to think in terms of
 * Cutomizing flash messages (+ task to copy skeleton locale)
 * Support for pure API controllers (which is much simplier)
 * Testing
-* Push to rubygems
 
 ## Development
 

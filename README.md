@@ -90,15 +90,6 @@ Or install it yourself as:
 
     $ gem install crud_responder
 
-## Usage
-
-Include `CrudResponder` into your `ApplicationController` (or whatever base controller you have)
-```ruby
-class ApplicationController
-  include CrudResponder
-end
-```
-
 Copy translations from gem's `config/locales` to your `config/locales`. Or, for example, create file `config/locales/crud_responder.en.yml` in your project with following content:
 ```yaml
 en:
@@ -113,6 +104,15 @@ en:
       destroy:
         notice: '%{resource_name} %{resource_desc} was successfully destroyed.'
         alert: '%{resource_name} %{resource_desc} cannot be destroyed. %{errors}'
+```
+
+## Usage
+
+Include `CrudResponder` into your `ApplicationController` (or whatever base controller you have)
+```ruby
+class ApplicationController
+  include CrudResponder
+end
 ```
 
 Use `crud_respond` method with object you need to create, update or destroy. Optionally, you can pass options to this method to override default redirect and render actions
@@ -188,6 +188,44 @@ Now your controllers are skinny again! Also, you are forced to think in terms of
 * Cutomizing flash messages (+ task to copy skeleton locale)
 * Support for pure API controllers (which is much simplier)
 * Testing
+
+Note about pure API controllers. I already use this idea:
+```ruby
+# somewhere in base controller for API
+protected
+
+def result(object, method = :save, options = {})
+  method = :destroy if caller[0][/`.*'/][1..-2] == 'destroy'
+  serializable_attrs = *options.fetch(:serializable_attrs, :id)
+  if object.send method
+    object_json(object, serializable_attrs)
+    respond_with object, location: (method == :destroy ? nil : object_url(object))
+  else
+    fail UnprocessableEntityError, object.errors.full_messages.to_sentence
+  end
+end
+
+def object_url(object)
+  polymorphic_url(object)
+rescue NoMethodError
+  "there is no show route for #{object.class.name} object"
+end
+
+def object_json(object, serializable_attrs)
+  object.instance_exec(serializable_attrs) do |attrs|
+    @_s_attrs = attrs
+    def to_json(*) # don't want to return the whole object on create/update
+      hash = {}
+      @_s_attrs.each do |attr|
+        hash[attr] = try(attr) if try(attr)
+      end
+      hash.any? ? JSON.generate(hash) : ''
+    end
+  end
+end
+```
+I'm thinking of extracting this as well plus adding support for [ActiveModelSerializers](https://github.com/rails-api/active_model_serializers).
+Any feedback is welcome.
 
 ## Development
 

@@ -1,6 +1,4 @@
 AllCops:
-  RunRailsCops: true
-
   Exclude:
     - '*.gemspec'
     - 'bin/*'

@@ -84,31 +84,23 @@ gem 'crud_responder'
 
 And then execute:
 
-    $ bundle install
-
+```Shell
+  $ bundle install
+```
 Or install it yourself as:
 
-    $ gem install crud_responder
+```Shell
+  $ gem install crud_responder
+```
+Generate initial files:
 
-Copy translations from gem's `config/locales` to your `config/locales`. Or, for example, create file `config/locales/crud_responder.en.yml` in your project with following content:
-```yaml
-en:
-  flash:
-    actions:
-      create:
-        notice: '%{resource_name} %{resource_desc} was successfully created.'
-        alert: '%{resource_name} %{resource_desc} cannot be created. %{errors}'
-      update:
-        notice: '%{resource_name} %{resource_desc} was successfully updated.'
-        alert: '%{resource_name} %{resource_desc} cannot be updated. %{errors}'
-      destroy:
-        notice: '%{resource_name} %{resource_desc} was successfully destroyed.'
-        alert: '%{resource_name} %{resource_desc} cannot be destroyed. %{errors}'
+```Shell
+$ rails g crud_responder:install
 ```
 
 ## Usage
 
-Include `CrudResponder` into your `ApplicationController` (or whatever base controller you have)
+Include `CrudResponder` into your `ApplicationController` (or whatever base controller you have). Note: generator already has included CrudResponder to Application controller.
 ```ruby
 class ApplicationController
   include CrudResponder
@@ -185,8 +177,8 @@ Now your controllers are skinny again! Also, you are forced to think in terms of
 
 ## TODO
 
-* Cutomizing flash messages (+ task to copy skeleton locale)
-* Support for pure API controllers (which is much simplier)
+* Customizing flash messages
+* Support for pure API controllers (which is much simpler)
 * Testing
 
 Note about pure API controllers. I already use this idea:

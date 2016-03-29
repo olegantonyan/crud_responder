@@ -13,7 +13,7 @@ module CrudResponder
       end
 
       def copy_locale
-        copy_file '../../crud_responder/locales/en.yml', 'config/locales/crud_responder.en.yml'
+        copy_file '../../../config/locales/en.yml', 'config/locales/crud_responder.en.yml'
       end
     end
   end

@@ -93,7 +93,7 @@ module CrudResponder
   end
 
   def resource_name_by_object(object)
-    object.class.to_s
+    object.try(:model_name).try(:human) || object.class.name
   end
 
   def flash_success(msg)

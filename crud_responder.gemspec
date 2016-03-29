@@ -24,4 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3"
   spec.add_dependency "railties", ">= 4", "< 5.1"
   spec.add_dependency "actionpack", ">= 4", "< 5.1"
+  spec.add_dependency "activesupport", ">= 4", "< 5.1"
 end

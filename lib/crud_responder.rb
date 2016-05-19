@@ -1,29 +1,32 @@
+require 'action_view/helpers/text_helper'
+
 require 'crud_responder/version'
 require 'crud_responder/default_options'
-require 'action_view/helpers/text_helper'
+require 'crud_responder/default_notification'
+require 'crud_responder/caller_extractor'
 
 module CrudResponder
   include ActionView::Helpers::TextHelper
 
-  protected
-
   def crud_respond(object, opts = {})
-    method = opts.fetch(:method, method_by_caller(caller))
+    method = opts.fetch(:method, CallerExtractor.new(caller).method)
     options = final_options(opts, method, object)
-    if perform(caller, object, method)
-      success(options)
+    if object.public_send(method)
+      success(options, object, caller)
     else
-      error(options)
+      error(options, object, caller)
     end
   end
 
   private
 
-  def success(options)
+  def success(options, object, kaller)
+    flash_success(options[:success_message] || DefaultNotification.new(object, kaller).text(true))
     redirect_to options[:success_url]
   end
 
-  def error(options)
+  def error(options, object, kaller)
+    flash_error(options[:error_message] || DefaultNotification.new(object, kaller).text(false))
     if options[:error_url]
       redirect_to options[:error_url]
     else
@@ -54,46 +57,6 @@ module CrudResponder
     result = send(:crud_responder_default_options)
     return nil unless result
     result.fetch(opt, nil)
-  end
-
-  def caller_name(kaller)
-    kaller[0][/`.*'/][1..-2]
-  end
-
-  def method_by_caller(kaller)
-    if caller_name(kaller) =~ /destroy/
-      :destroy
-    else
-      :save
-    end
-  end
-
-  def perform(kaller, object, method)
-    ok = object.public_send(method)
-    t_key = "flash.actions.#{action_by_caller(kaller)}.#{ok ? 'notice' : 'alert'}"
-    if ok
-      flash_success I18n.t(t_key, resource_name: resource_name_by_object(object), resource_desc: object.to_s)
-    else
-      flash_error I18n.t(t_key, resource_name: resource_name_by_object(object), resource_desc: object.to_s, errors: object.errors.full_messages.to_sentence)
-    end
-    ok
-  end
-
-  def action_by_caller(kaller)
-    case caller_name(kaller)
-    when /destroy/
-      :destroy
-    when /update/
-      :update
-    when /create/
-      :create
-    else
-      "unknown_action_from_#{caller_name(kaller)}".to_sym
-    end
-  end
-
-  def resource_name_by_object(object)
-    object.try(:model_name).try(:human) || object.class.name
   end
 
   def flash_success(msg)

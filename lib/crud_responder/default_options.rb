@@ -33,6 +33,14 @@ module CrudResponder
       nil
     end
 
+    def success_message
+      nil # lazily calcucalted in DefaultNotification
+    end
+
+    def error_message
+      nil # lazily calcucalted in DefaultNotification
+    end
+
     private
 
     attr_reader :method, :object

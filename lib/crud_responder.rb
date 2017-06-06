@@ -22,13 +22,13 @@ module CrudResponder
 
   def success(options, object, kaller)
     flash_success(options[:success_message] || DefaultNotification.new(object, kaller).text(true))
-    redirect_to options[:success_url]
+    redirect_to_url_smart(options[:success_url])
   end
 
   def error(options, object, kaller)
     flash_error(options[:error_message] || DefaultNotification.new(object, kaller).text(false))
     if options[:error_url]
-      redirect_to options[:error_url]
+      redirect_to_url_smart(options[:error_url])
     else
       render options[:error_action]
     end
@@ -69,5 +69,13 @@ module CrudResponder
 
   def truncate_message(msg)
     truncate(msg.to_s, length: 256, escape: false)
+  end
+
+  def redirect_to_url_smart(url)
+    if url == :back && Rails.version >= '5.1'
+      redirect_back(fallback_location: '/')
+    else
+      redirect_to url
+    end
   end
 end
